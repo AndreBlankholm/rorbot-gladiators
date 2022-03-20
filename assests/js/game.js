@@ -2,7 +2,7 @@
 
 var playerName = window.prompt("What is your robot's name?");
 var playerHealth = 100;
-var playerAttack = 10;
+var playerAttack = 25;
 var playerMoney = 10;
 
 var enemyNames = ["Roboto", "Amy Android", "Robo Trumble"];
@@ -11,9 +11,8 @@ var enemyHealth = 50;
 var enemyAttack = 12;
 
 var fight = function(enemyName) {
-
-    // Alert players that they are starting the round
-  window.alert("Welcome to Robot Gladiators!");
+  while(enemyHealth > 0) {
+    
 
   var promptFight = prompt("Would you like to FIGHT or Skip this battle?");
   console.log(promptFight);
@@ -58,17 +57,22 @@ var fight = function(enemyName) {
     }
 
     else {
-    fight();
+    fight(); // calls the fight function and keep going as long as enemy has health. if not the loop stps and the JS keeps reading outside this function //
     }
 
 
   } else {
     window.alert("You need to choose a valid option. Try again!");
   }
+  }
+    // Alert players that they are starting the round
+  
 };
 
 // fight(); commented out the function call
 
 for(var i = 0; i < enemyNames.length; i++) {
+  var pickedEnemyName = enemyNames[i];
+  enemyHealth = 50;
   fight(enemyNames[i]);
 }
