@@ -1,4 +1,3 @@
-
 var playerName = window.prompt("What is your robot's name?");
 var playerHealth = 100;
 var playerAttack = 150;
@@ -8,6 +7,14 @@ var enemyNames = ["Roboto", "Amy Android", "Robo Trumble"];
 
 var enemyHealth = 10;
 var enemyAttack = 10;
+
+
+var randomNumber = function(min, max) {
+  var value = Math.floor(Math.random() * (max - min + 1) + min); //two parameters: one to represent the lower limit and one to represent the upper limit **
+
+  return value;
+};
+
 
 var fight = function (enemyName) {
   while (playerHealth > 0 && enemyHealth > 0) {
@@ -26,13 +33,13 @@ var fight = function (enemyName) {
       if (confirmSkip) {
         window.alert(playerName + " has decided to skip this fight. Goodbye!");
 
-        playerMoney = playerMoney - 10; // subtract money from playerMoney for skipping
+        playerMoney = Math.max(0, playerMoney - 10); // subtract money from playerMoney for skipping
         console.log("playerMoney", playerMoney);
         break;
       }
     }
 
-    enemyHealth = enemyHealth - playerAttack; // remove enemy's health by subtracting the amount set in the playerAttack variable
+    enemyHealth = enemyHealth = Math.max(0, enemyHealth - playerAttack); // remove enemy's health by subtracting the amount set in the playerAttack variable
     console.log(
       playerName +
         " attacked " +
@@ -56,7 +63,7 @@ var fight = function (enemyName) {
     }
 
     // remove players's health by subtracting the amount set in the enemyAttack variable
-    playerHealth = playerHealth - enemyAttack;
+    playerHealth = playerHealth = Math.max(0, playerHealth - enemyAttack);
     console.log(
       enemyName +
         " attacked " +
@@ -82,10 +89,10 @@ var fight = function (enemyName) {
 // fight(); commented out the function call
 var startGame = function () {
   //ou need to call startGame() first to get the ball rolling.
-  
+
   // reset player stats
   playerHealth = 100;
-  playerAttack = 10;
+  playerAttack = 50;
   playerMoney = 10;
 
   for (var i = 0; i < enemyNames.length; i++) {
@@ -120,7 +127,7 @@ var startGame = function () {
       break;
     }
     var pickedEnemyName = enemyNames[i]; // put names in the index of the enemy
-    enemyHealth = 50;
+    enemyHealth = randomNumber(40, 60);
     fight(enemyNames[i]);
   }
   endGame();
@@ -135,46 +142,43 @@ var shop = function () {
     case "refill":
     case "REFILL":
     case "Refill":
-  if (playerMoney >= 7) {
-    window.alert("Refilling player's health by 20 for 7 dollars.");
+      if (playerMoney >= 7) {
+        window.alert("Refilling player's health by 20 for 7 dollars.");
 
-    // increase health and decrease money
-    playerHealth = playerHealth + 20;
-    playerMoney = playerMoney - 7;
-  }
-  else {
-    window.alert("You don't have enough money!");
-  }
+        // increase health and decrease money
+        playerHealth = playerHealth + 20;
+        playerMoney = playerMoney - 7;
+      } else {
+        window.alert("You don't have enough money!");
+      }
 
-  break;
-case "upgrade":
-case "UPGRADE":
-case "Upgrade":
-  if (playerMoney >= 7) {
-    window.alert("Upgrading player's attack by 6 for 7 dollars.");
+      break;
+    case "upgrade":
+    case "UPGRADE":
+    case "Upgrade":
+      if (playerMoney >= 7) {
+        window.alert("Upgrading player's attack by 6 for 7 dollars.");
 
-   // increase attack and decrease money
-    playerAttack = playerAttack + 6;
-    playerMoney = playerMoney - 7;
-  }
-  else {
-    window.alert("You don't have enough money!");
-  }
+        // increase attack and decrease money
+        playerAttack = playerAttack + 6;
+        playerMoney = playerMoney - 7;
+      } else {
+        window.alert("You don't have enough money!");
+      }
 
-  break;
+      break;
 
-  case "LEAVE": // new case
-  case "leave":
-  case "Leave":
-    window.alert("Leaving the store.");
+    case "LEAVE": // new case
+    case "leave":
+    case "Leave":
+      window.alert("Leaving the store.");
 
-    break;
+      break;
 
-  default:
-    window.alert("You did not pick a valid option. Try again.");
-    shop();  //put them back to start of shop to try to enter an option again
-    break;
-
+    default:
+      window.alert("You did not pick a valid option. Try again.");
+      shop(); //put them back to start of shop to try to enter an option again
+      break;
   }
 };
 
