@@ -1,62 +1,14 @@
-var playerInfo = {
-  name: window.prompt("What is your robot's name?"),
-  health: 100,
-  attack: 10,
-  money: 10,
-  reset: function() {
-    this.health = 100;
-    this.money = 10;
-    this.attack = 10;
-  }, // comma!
-  refillHealth: function() {
-    if (this.money >= 7) {
-      window.alert("Refilling player's health by 20 for 7 dollars.");
-      this.health += 20;
-      this.money -= 7;
-    } 
-    else {
-      window.alert("You don't have enough money!");
-    }
-  },// comma!
-  upgradeAttack: function() {
-    if (this.money >= 7) {
-      window.alert("Upgrading player's attack by 6 for 7 dollars.");
-      this.attack += 6;
-      this.money -= 7;
-    } 
-    else {
-      window.alert("You don't have enough money!");
-    }
-  }
-};
 
-var randomNumber = function(min, max) {
-  var value = Math.floor(Math.random() * (max - min + 1) + min); //two parameters: one to represent the lower limit and one to represent the upper limit **
+var getPlayerName = function() {
+  var name = "";
 
-  return value;
-};
-
-console.log(playerInfo.health, playerInfo.money);
-
-var enemies = [
-  {
-    name: "Roboto",
-    health: 10,
-    attack: randomNumber(10, 14)
-  },
-  {
-    name: "Amy Android",
-    health: 10,
-    attack: randomNumber(10, 14)
-  },
-  {
-    name: "Robo Trumble",
-    health: 10,
-    attack: randomNumber(10, 14)
+  while(name === "" || name === null) {
+    name = prompt("What is your robots name?")
   }
 
-]
-
+  console.log("Your robot's name is " + name);
+  return name;
+};
 
 
 // function to generate a random numeric value
@@ -139,7 +91,7 @@ var startGame = function() {
     if (playerInfo.health > 0) {
       // let player know what round they are in, remember that arrays start at 0 so it needs to have 1 added to it
       window.alert('Welcome to Robot Gladiators! Round ' + (i + 1));
-
+    
       // pick new enemy to fight based on the index of the enemyInfo array
       var pickedEnemyObj = enemyInfo[i];
 
@@ -230,7 +182,7 @@ var shop = function() {
 
 // player information
 var playerInfo = {
-  name: window.prompt("What is your robot's name?"),
+  name: getPlayerName(),
   health: 100,
   attack: 10,
   money: 10,
