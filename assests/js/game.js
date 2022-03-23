@@ -1,7 +1,7 @@
 
 var getPlayerName = function() {
   var name = "";
-
+debugger;
   while(name === "" || name === null) {
     name = prompt("What is your robots name?")
   }
@@ -167,21 +167,19 @@ var endGame = function() {
 var shop = function() {
   // ask player what they'd like to do
   var shopOptionPrompt = window.prompt(
-    'Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one "REFILL", "UPGRADE", or "LEAVE" to make a choice.'
+    "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one 1 for REFILL, 2 for UPGRADE, or 3 for LEAVE."
   );
 
   // use switch case to carry out action
+  shopOptionPrompt = parseInt(shopOptionPrompt); // turned string into number value**
   switch (shopOptionPrompt) {
-    case 'REFILL':
-    case 'refill':
+    case 1:
       playerInfo.refillHealth();
       break;
-    case 'UPGRADE':
-    case 'upgrade':
+    case 2:
       playerInfo.upgradeAttack();
       break;
-    case 'LEAVE':
-    case 'leave':
+    case 3:
       window.alert('Leaving the store.');
 
       // do nothing, so function will end
@@ -203,12 +201,12 @@ var shop = function() {
 var playerInfo = {
   name: getPlayerName(),
   health: 100,
-  attack: 10,
+  attack: 100,
   money: 10,
   reset: function() {
     this.health = 100;
     this.money = 10;
-    this.attack = 10;
+    this.attack = 100;
   },
   refillHealth: function() {
     if (this.money >= 7) {
