@@ -50,52 +50,66 @@ var fightOrSkip = function() {
 
     // fight function (now with parameter for enemy's object holding name, health, and attack values)
 var fight = function(enemy) {
+
+  var isPlayerTurn = true;  //  keeps track of who goes first ...lines 54 through 61 succesfully randomize the valus of the turn **
+  if(Math.random() < 0.5) {
+    isPlayerFalse = false;
+  }
+
+  if (Math.random() > 0.5) {
+    isPlayerTurn = true;
+  }
   // repeat and execute as long as the enemy-robot is alive**
   while (playerInfo.health > 0 && enemy.health > 0) {
 
-    var confirmSkip = fightOrSkip();
-    if (confirmSkip){
-      break;
-    }
+    if (isPlayerTurn) {
+      // ask player if they'd like to fight or skip using fightOrSkip function
+      if (fightOrSkip()) {
+        // if true, leave fight by breaking loop
+        break;
+      }
 
-    // generate random damage value based on player's attack power
-    var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
+      var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
 
-    enemy.health = Math.max(0, enemy.health - damage);
-    console.log(
-      playerInfo.name + ' attacked ' + enemy.name + '. ' + enemy.name + ' now has ' + enemy.health + ' health remaining.'
-    );
+      // remove enemy's health by subtracting the amount we set in the damage variable
+      enemy.health = Math.max(0, enemy.health - damage);
+      console.log(
+        playerInfo.name + " attacked " + enemy.name + ". " + enemy.name + " now has " + enemy.health + " health remaining."
+      );
 
-    // check enemy's health
-    if (enemy.health <= 0) {
-      window.alert(enemy.name + ' has died!');
+      // check enemy's health
+      if (enemy.health <= 0) {
+        window.alert(enemy.name + " has died!");
 
-      // award player money for winning
-      playerInfo.money = playerInfo.money + 20;
+        // award player money for winning
+        playerInfo.money = playerInfo.money + 20;
 
-      // leave while() loop since enemy is dead
-      break;
+        // leave while() loop since enemy is dead
+        break;
+      } else {
+        window.alert(enemy.name + " still has " + enemy.health + " health left.");
+      }
+      // player gets attacked first
     } else {
-      window.alert(enemy.name + ' still has ' + enemy.health + ' health left.');
+      var damage = randomNumber(enemy.attack - 3, enemy.attack);
+
+      // remove player's health by subtracting the amount we set in the damage variable
+      playerInfo.health = Math.max(0, playerInfo.health - damage);
+      console.log(
+        enemy.name + " attacked " + playerInfo.name + ". " + playerInfo.name + " now has " + playerInfo.health + " health remaining."
+      );
+
+      // check player's health
+      if (playerInfo.health <= 0) {
+        window.alert(playerInfo.name + " has died!");
+        // leave while() loop if player is dead
+        break;
+      } else {
+        window.alert(playerInfo.name + " still has " + playerInfo.health + " health left.");
+      }
     }
-
-    // remove players's health by subtracting the amount set in the enemy.attack variable
-    var damage = randomNumber(enemy.attack - 3, enemy.attack);
-
-    playerInfo.health = Math.max(0, playerInfo.health - damage);
-    
-    console.log(
-      enemy.name + ' attacked ' + playerInfo.name + '. ' + playerInfo.name + ' now has ' + playerInfo.health + ' health remaining.'
-    );
-
-    // check player's health
-    if (playerInfo.health <= 0) {
-      window.alert(playerInfo.name + ' has died!');
-      // leave while() loop if player is dead
-      break;
-    } else {
-      window.alert(playerInfo.name + ' still has ' + playerInfo.health + ' health left.');
-    }
+    // switch turn order for next round
+    isPlayerTurn = !isPlayerTurn;
   }
 };
 
@@ -201,12 +215,12 @@ var shop = function() {
 var playerInfo = {
   name: getPlayerName(),
   health: 100,
-  attack: 100,
+  attack: 50,
   money: 10,
   reset: function() {
     this.health = 100;
     this.money = 10;
-    this.attack = 100;
+    this.attack = 50;
   },
   refillHealth: function() {
     if (this.money >= 7) {
