@@ -1,7 +1,7 @@
 
 var getPlayerName = function() {
   var name = "";
-debugger;
+
   while(name === "" || name === null) {
     name = prompt("What is your robots name?")
   }
@@ -160,20 +160,30 @@ var startGame = function() {
 var endGame = function() {
   window.alert("The game has now ended. Let's see how you did!");
 
-  // if player is still alive, player wins!
-  if (playerInfo.health > 0) {
-    window.alert("Great job, you've survived the game! You now have a score of " + playerInfo.money + '.');
-  } else {
-    window.alert("You've lost your robot in battle!");
+  // check localStorage for high score, if it's not there, use 0
+  var highScore = localStorage.getItem("highscore"); // localstorage 
+  if (highScore === null) {   // making sure null is does not pop up or is undefined. making sure there is a floor of zero (usally for the first data entry's)
+    highScore = 0;
+  }
+  // if player has more money than the high score, player has new high score!
+  if (playerInfo.money > highScore) {
+    localStorage.setItem("highscore", playerInfo.money); // taking a object variable and setting a key value pair of current highscore and PlayerInfo.money current value IF greater than old high score
+    localStorage.setItem("name", playerInfo.name);       //taking local storage key/name. and setting it to current palyers name
+
+    alert(playerInfo.name + " now has the high score of " + playerInfo.money + "!");  // tell current person that they got the new high score
+  } 
+  else {
+    alert(playerInfo.name + " did not beat the high score of " + highScore + ". Maybe next time!"); // letting player know that he cant touch this
   }
 
   // ask player if they'd like to play again
-  var playAgainConfirm = window.confirm('Would you like to play again?');
+  var playAgainConfirm = window.confirm("Would you like to play again?");  // placed outside of if statment scope but inside of the endGame function scope
 
   if (playAgainConfirm) {
     startGame();
-  } else {
-    window.alert('Thank you for playing Robot Gladiators! Come back soon!');
+  } 
+  else {
+    window.alert("Thank you for playing Robot Gladiators! Come back soon!");
   }
 };
 
@@ -215,12 +225,12 @@ var shop = function() {
 var playerInfo = {
   name: getPlayerName(),
   health: 100,
-  attack: 50,
+  attack: 30,
   money: 10,
   reset: function() {
     this.health = 100;
     this.money = 10;
-    this.attack = 50;
+    this.attack = 30;
   },
   refillHealth: function() {
     if (this.money >= 7) {
